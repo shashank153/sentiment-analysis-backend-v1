@@ -58,7 +58,12 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('public'))
 
+//Home Route(Get Route)
+app.get('/', (req, res) => {
+    res.send("Welcome to the Twitter backend API")
+})
 
+//getTweetData(Get Route)
 app.get('/getTweetData', function(req, res){
     start("salman").then((result) => {
         console.log(JSON.stringify(result));
