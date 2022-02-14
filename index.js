@@ -56,7 +56,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
-app.use(express.static('public'))
+app.use(express.static('public'));
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    next();
+})
 
 //Home Route(Get Route)
 app.get('/', (req, res) => {
