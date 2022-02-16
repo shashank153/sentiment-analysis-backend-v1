@@ -68,7 +68,8 @@ app.get('/', (req, res) => {
 })
 
 //getTweetData(Get Route)
-app.get('/getTweetData', function(req, res){
+app.get('/getTweetData/:query', function(req, res){
+    console.log(req.params.query);
     start("salman").then((result) => {
         console.log(JSON.stringify(result));
         res.send(result)
