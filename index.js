@@ -4,6 +4,7 @@
 const needle = require('needle');
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 // The code below sets the bearer token from your environment variables
 // To set environment variables on macOS or Linux, run the export command below from the terminal:
@@ -49,18 +50,21 @@ async function start(query) {
     }
     process.exit();
 }
- 
+
 // @author: Shashank Kumar Shukla
 const app = express()
+
 app.use(bodyParser.urlencoded({
     extended: true
 }))
+app.use(cors({
+    origin: '*'
+}));
+app.use(cors({
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}));
 
 app.use(express.static('public'));
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    next();
-})
 
 //Home Route(Get Route)
 app.get('/', (req, res) => {
@@ -68,15 +72,14 @@ app.get('/', (req, res) => {
 })
 
 //getTweetData(Get Route)
-app.get('/getTweetData/:query', function(req, res){
+app.get('/getTweetData/:query', function (req, res) {
     console.log(req.params.query);
-    start("salman").then((result) => {
+    start(req.params.query).then((result) => {
         console.log(JSON.stringify(result));
         res.send(result)
     })
 })
 
-app.listen(3000, ()=>{
+app.listen(3000, () => {
     console.log("Server started at port 3000");
 })
-
